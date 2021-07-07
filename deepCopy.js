@@ -15,3 +15,5 @@ const deepCopy = (obj) => {
 
     return copy;
 }
+
+export default deepCopy;

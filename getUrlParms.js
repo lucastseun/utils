@@ -17,3 +17,5 @@ const getUrlParms = (key) => {
 
     return key ? map[key] : map;
 }
+
+export default getUrlParms;
