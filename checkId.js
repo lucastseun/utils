@@ -51,7 +51,7 @@ const checkId = (id) => {
         }
         return false;
     };
-    // 校验出生日期 19900725
+    // 校验出生日期 20211001
     const checkDate = (dateVal) => {
         const reg = /^(19|20)\d{2}(0[1-9]|1[0-2])([0-2][1-9]|10|20|30|31)$/;
         if (reg.test(dateVal)) {

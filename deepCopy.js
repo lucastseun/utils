@@ -3,9 +3,9 @@ const deepCopy = (obj) => {
         return obj;
     }
 
-    let isArray = (obj) => Object.prototype.toString.call(obj) === '[object Array]';
+    const isArray = (obj) => Object.prototype.toString.call(obj) === '[object Array]';
 
-    let copy = isArray(obj) ? [] : {};
+    const copy = isArray(obj) ? [] : {};
 
     for (const key in obj) {
         if (obj.hasOwnProperty(key)) {
