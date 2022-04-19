@@ -1,4 +1,11 @@
-const selector = (opts = {}) => {
+/**
+ * 
+ * @param {Object} opts 
+ * @param {Array [{code:1,text:'IT'}]...} opts.data
+ * @param {Function} opts.sucess
+ * @returns 
+ */
+const Selector = (opts = {}) => {
     const data = opts.data || [];
     let selectorHtml = document.querySelector('div[selector]');
 
@@ -78,5 +85,5 @@ const selector = (opts = {}) => {
 };
 
 export {
-    selector
+    Selector
 };
