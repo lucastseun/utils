@@ -83,6 +83,134 @@ const Selector = (opts = {}) => {
     });
 };
 
+/**
+ * 
+ * @param {Object} opts 
+ * @param {String} opts.title
+ * @param {String} opts.contentText
+ * @param {Function} opts.ok
+ * @param {Function} opts.cancel
+ * @returns 
+ */
+const Dialog = (opts = {}) => {
+    let dialogHtml = document.querySelector('div[dialog]');
+    if (dialogHtml) {
+        return;
+    }
+
+    const overlayStyle = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 9999;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0);
+        transition: background .8s;
+    `;
+    
+    const containerStyle = `
+        position: fixed;
+        top: 45%;
+        left: 50%;
+        right: 50%;
+        z-index: 19999;
+        width: 90%;
+        overflow: hidden;
+        font-size: 16px;
+        color: #333;
+        background: #fff;
+        border-radius: 16px;
+        text-align: center;
+        transform: translate3d(-50%, -50%, 0);
+        opacity: 0;
+        transition: opacity .3s;
+    `;
+
+    const titleStyle = `
+        padding-top: 26px;
+        font-weight: 500;
+    `;
+
+    const contentStyle = `
+        color: #646566;
+        padding: 26px;
+        font-size: 14px;
+        line-height: 20px;
+        ${opts.title && 'padding-top: 8px;'}
+    `;
+
+    const btnBoxStyle = `
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        align-content: center;
+        height: 50px;
+        color: #323233;
+        border-top: 1px solid rgba(0, 0, 0, .1);
+    `;
+
+    const btnStyle = `
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        align-content: center;
+    `;
+
+    const okStyle = `
+        color: #ee0a24;
+        ${opts.cancel && 'border-left: 1px solid rgba(0, 0, 0, .1)'}
+    `;
+
+    dialogHtml = document.createElement('div');
+    dialogHtml.setAttribute('dialog', 'dialog');
+    dialogHtml.setAttribute('style', overlayStyle);
+    dialogHtml.innerHTML = `
+        <div style="${containerStyle}">
+            ${opts.title && `<div style="${titleStyle}">${opts.title}</div>`}
+            <div style="${contentStyle}">${opts.contentText || ''}</div>
+            <div style="${btnBoxStyle}">
+                ${opts.cancel && `<div style="${btnStyle}" id="dia-cancel">${opts.cancelText || '取消'}</div>`}
+                <div style="${btnStyle}${okStyle}" id="dia-ok">${opts.okText || '确认'}</div>
+            </div>
+        </div>
+    `;
+    document.body.appendChild(dialogHtml);
+
+    const timer = setTimeout(() => {
+        dialogHtml.style.background = 'rgba(0, 0, 0, .7)';
+        dialogHtml.firstElementChild.style.opacity = '1';
+        clearTimeout(timer);
+    }, 50);
+
+    const hide = () => {
+        dialogHtml.style.background = 'rgba(0, 0, 0, 0)';
+        dialogHtml.firstElementChild.style.opacity = '0';
+        const timer = setTimeout(() => {
+            document.body.removeChild(dialogHtml);
+            clearTimeout(timer);
+        }, 800);
+    };
+
+    const cancel = document.querySelector('#dia-cancel');
+    cancel && cancel.addEventListener('click', e => {
+        cancel.style.background = 'rgba(0, 0, 0, .1)';
+        opts.cancel && opts.cancel({code: 'cancel'})
+        hide();
+    });
+
+    const ok = document.querySelector('#dia-ok');
+    ok && ok.addEventListener('click', e => {
+        ok.style.background = 'rgba(0, 0, 0, .1)';
+        opts.ok && opts.ok({code: 'ok'})
+        hide();
+    });
+}
+
 export {
-    Selector
+    Selector,
+    Dialog
 };
