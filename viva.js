@@ -26,10 +26,6 @@ const Selector = (opts = {}) => {
         transition: background 1s;
     `;
 
-    selectorHtml = document.createElement('div');
-    selectorHtml.setAttribute('selector', 'selector');
-    selectorHtml.setAttribute('style', overlayStyle);
-
     const contentStyle = `
         position: fixed;
         bottom: 0;
@@ -52,6 +48,9 @@ const Selector = (opts = {}) => {
         border-bottom: 1px solid rgba(0, 0, 0, .1);
     `;
 
+    selectorHtml = document.createElement('div');
+    selectorHtml.setAttribute('selector', 'selector');
+    selectorHtml.setAttribute('style', overlayStyle);
     selectorHtml.innerHTML = `
         <div style="${contentStyle}">
             ${data.map(item => `<div style="${itemStyle}" data-code="${item.code}">${item.text}</div>`).join('')}
